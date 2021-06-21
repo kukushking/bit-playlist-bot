@@ -1,6 +1,6 @@
 # bit-playlist-bot
 
-I put all awful gen-z non-music your frends shared in tg into the playlist so you don't have to.
+I put all awful gen-z non-music your friends shared in tg into the playlist so you don't have to.
 
 # deployment
 1. Make sure Python 3.6+ & AWS CDK are installed.
