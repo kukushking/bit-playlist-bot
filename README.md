@@ -1,58 +1,33 @@
+# bit-playlist-bot
 
-# Welcome to your CDK Python project!
+I put all awful gen-z non-music your frends shared in tg into the playlist so you don't have to.
 
-This is a blank project for Python development with CDK.
-
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
-
-This project is set up like a standard Python project.  The initialization
-process also creates a virtualenv within this project, stored under the .env
-directory.  To create the virtualenv it assumes that there is a `python3`
-(or `python` for Windows) executable in your path with access to the `venv`
-package. If for any reason the automatic creation of the virtualenv fails,
-you can create the virtualenv manually.
-
-To manually create a virtualenv on MacOS and Linux:
-
+# deployment
+1. Make sure Python 3.6+ & AWS CDK are installed.
+2. `pip install -r requirements.txt`
+3. `cdk bootstrap && cdk deploy --all`
+4. Create `spotify/oauth2` secret in Secrets Manager:
 ```
-$ python3 -m venv .env
+{
+  "client_id": "",
+  "client_secret": "",
+  "redirect_uri": "http://localhost:9090",
+  "scope": "playlist-modify-public"
+}
 ```
-
-After the init process completes and the virtualenv is created, you can use the following
-step to activate your virtualenv.
-
+5. Create `/spotify/user_id` parameter in Parameter Store.
+6. Create `/spotify/playlist_id` parameter in Parameter Store.
+7. Test API locally in Python Console or run the lambda to get .cache file with the token. Put the contents of the file into `token_cache` DynamoDB table as DynamoDB JSON string: 
 ```
-$ source .env/bin/activate
+{
+    "name": "token_info",
+    "value": {
+        'access_token': {'S': '<TOKEN>'},
+        'expires_at': {'N': '<EXPIRES_AT>'},
+        'expires_in': {'N': '3600'},
+        'refresh_token': {'S': '<REFRESH_TOKEN'},
+        'scope': {'S': 'playlist-modify-private playlist-modify-public'},
+        'token_type': {'S': 'Bearer'}
+    }
+}
 ```
-
-If you are a Windows platform, you would activate the virtualenv like this:
-
-```
-% .env\Scripts\activate.bat
-```
-
-Once the virtualenv is activated, you can install the required dependencies.
-
-```
-$ pip install -r requirements.txt
-```
-
-At this point you can now synthesize the CloudFormation template for this code.
-
-```
-$ cdk synth
-```
-
-To add additional dependencies, for example other CDK libraries, just add
-them to your `setup.py` file and rerun the `pip install -r requirements.txt`
-command.
-
-## Useful commands
-
- * `cdk ls`          list all stacks in the app
- * `cdk synth`       emits the synthesized CloudFormation template
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk docs`        open CDK documentation
-
-Enjoy!

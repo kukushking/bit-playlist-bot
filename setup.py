@@ -18,9 +18,7 @@ setuptools.setup(
     package_dir={"": "bit_playlist_bot"},
     packages=setuptools.find_packages(where="bit_playlist_bot"),
 
-    install_requires=[
-        "aws-cdk.core==1.55.0",
-    ],
+    install_requires=open("requirements.txt").read().strip().split("\n"),
 
     python_requires=">=3.6",
 

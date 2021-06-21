@@ -1,1 +1,6 @@
--e .
+aws_cdk.core==1.106.1
+aws_cdk.aws_lambda==1.106.1
+aws_cdk.aws_apigateway==1.106.1
+aws_cdk.aws_dynamodb==1.106.1
+spotipy==2.18.0
+boto3==1.17.93

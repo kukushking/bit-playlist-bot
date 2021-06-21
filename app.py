@@ -2,7 +2,7 @@
 
 from aws_cdk import core
 
-from bit_playlist_bot.bit_playlist_bot_stack import BitPlaylistBotStack
+from bit_playlist_bot.bot_stack import BitPlaylistBotStack
 
 
 app = core.App()
