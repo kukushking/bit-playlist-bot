@@ -1,5 +1,6 @@
 import json
 import logging
+import requests
 from typing import Any, Dict, Optional
 
 from .config import Config
@@ -9,6 +10,7 @@ from .utils import (
     get_id_from_url,
     is_track,
     is_album,
+    is_url_shortener_link,
 )
 
 
@@ -33,10 +35,15 @@ def lambda_handler(event: Dict, context: Dict):
 
     for url in get_urls_from_message(message_text):
         try:
+            # Follow redirect if url shortener link
+            if is_url_shortener_link(url):
+                url = requests.get(url).url
+
             if is_track(url):
                 track_id: str = get_id_from_url(url)
             elif is_album(url):
                 album_id: str = get_id_from_url(url)
+                # Get the first track of an album
                 track_id: str = _spotify.get_album_track_ids(album_id=album_id)[0]
             else:
                 _logger.info(f"Unknown URL '{url}'")

@@ -16,6 +16,10 @@ def is_album(url) -> bool:
     return False
 
 
+def is_url_shortener_link(url) -> bool:
+    return url.startswith("https://spotify.link")
+
+
 def get_id_from_url(url) -> str:
     parsed_url = urlparse(url).path.split("/")
     return parsed_url[-1]
